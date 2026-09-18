@@ -1,0 +1,77 @@
+plugins {
+    id 'java-library'
+    id 'idea'
+    id 'net.neoforged.moddev' version '2.0.78'
+}
+
+version = mod_version
+group = mod_group_id
+
+base {
+    archivesName = mod_id
+}
+
+java.toolchain.languageVersion = JavaLanguageVersion.of(21)
+
+neoForge {
+    version = neo_version
+
+    parchment {
+        mappingsVersion = parchment_mappings_version
+        minecraftVersion = parchment_minecraft_version
+    }
+
+    runs {
+        client {
+            client()
+            systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
+        }
+        server {
+            server()
+            programArgument '--nogui'
+            systemProperty 'neoforge.enabledGameTestNamespaces', mod_id
+        }
+    }
+
+    mods {
+        "${mod_id}" {
+            sourceSet sourceSets.main
+        }
+    }
+}
+
+dependencies {
+    compileOnly 'org.spongepowered:mixin:0.8.7'
+    compileOnly 'io.github.llamalad7:mixinextras-common:0.4.1'
+    compileOnly files('libs/voxy.jar')
+}
+
+tasks.named('compileJava') {
+    options.compilerArgs += [
+        '-AoutRefMapFile=' + file("${projectDir}/src/main/resources/${mod_id}.refmap.json"),
+        '-AdefaultObfuscationEnv=searge'
+    ]
+}
+
+repositories {
+    mavenCentral()
+    maven { url = 'https://maven.parchmentmc.org' }
+}
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
+tasks.named('jar', Jar).configure {
+    manifest {
+        attributes([
+            'Specification-Title'    : mod_id,
+            'Specification-Vendor'   : mod_authors,
+            'Specification-Version'  : '1',
+            'Implementation-Title'   : project.name,
+            'Implementation-Version' : project.version,
+            'Implementation-Vendor'  : mod_authors,
+            'MixinConfigs'           : "${mod_id}.mixins.json"
+        ])
+    }
+}

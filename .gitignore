@@ -1,0 +1,15 @@
+# Build output
+build/
+.gradle/
+run/
+
+# Local-only dependency (never redistribute — Voxy is All-Rights-Reserved)
+libs/
+
+# IDE
+.idea/
+*.iml
+.vscode/
+
+# OS
+.DS_Store

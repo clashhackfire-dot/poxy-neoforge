@@ -1,0 +1,37 @@
+modLoader = "javafml"
+loaderVersion = "[1,)"
+license = "GPL-3.0-only"
+issueTrackerURL = "https://github.com/clashhackfire-dot/poxy-neoforge/issues"
+
+[[mods]]
+modId = "poxyneoforge"
+version = "${file.jarVersion}"
+displayName = "Poxy (NeoForge)"
+authors = "HackFire"
+description = '''Ports Poxy's Android compatibility patches for Voxy \
+(LMDB/ZSTD natives, libc.so linkage instead of libc.so.6) to NeoForge 1.21.1, \
+for use alongside Roxy. Does not redistribute Voxy. GPLv3.'''
+
+[[dependencies.poxyneoforge]]
+    modId = "neoforge"
+    type = "required"
+    versionRange = "[21.1,)"
+    ordering = "NONE"
+    side = "CLIENT"
+
+[[dependencies.poxyneoforge]]
+    modId = "minecraft"
+    type = "required"
+    versionRange = "[1.21.1,1.21.2)"
+    ordering = "NONE"
+    side = "CLIENT"
+
+# Roxy loads the original Fabric Voxy jar on NeoForge — our mixins target
+# Voxy's own classes, so we soft-depend on whichever mod actually injects
+# the "voxy" modid (Roxy today; a native NeoForge Voxy port tomorrow).
+[[dependencies.poxyneoforge]]
+    modId = "voxy"
+    type = "required"
+    versionRange = "[0,)"
+    ordering = "AFTER"
+    side = "CLIENT"

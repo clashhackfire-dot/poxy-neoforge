@@ -1,0 +1,15 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.hackfire.poxyneoforge.mixin",
+  "plugin": "com.hackfire.poxyneoforge.PoxyMixinPlugin",
+  "compatibilityLevel": "JAVA_21",
+  "refmap": "poxyneoforge.refmap.json",
+  "client": [
+    "StorageConfigUtilMixin",
+    "ThreadUtilsMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
